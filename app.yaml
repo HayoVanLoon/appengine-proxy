@@ -1,0 +1,10 @@
+runtime: go114
+
+env_variables:
+  TARGET: "your target, for instance a frontend app on Cloud Run"
+  AUDIENCE: "the audience for your service, i.e. its Oauth2 Client ID"
+
+handlers:
+  - url: /.*
+    secure: always
+    script: auto
