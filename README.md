@@ -10,7 +10,7 @@ Depending on your previous actions, some steps can be skipped.
 
 1. Create an Oauth2 Client ID in the console ([link](https://console.cloud.google.com/apis/credentials)).
 1. Deploy the real frontend to Cloud Run with flag `no-allow-unauthenticated`
-2. Write down the reported URL - this is the target proxy scheme.
+2. Write down the reported URL - this is the proxy target scheme.
 3. Open `app.yaml`
 4. Fill `TARGET` with proxy target scheme (i.e. `https://www.example.com`)
 5. Fill `AUDIENCE` with your Oauth2 Client ID
