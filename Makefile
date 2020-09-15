@@ -6,7 +6,7 @@ endif
 
 deploy: check
 	cp app.yaml app.yaml.example
-	cp etc/app.yaml .
-	gcloud app deploy \
+	cp etc/app-$(PROJECT).yaml ./app.yaml
+	-gcloud app deploy \
 		--project=$(PROJECT)
 	cp app.yaml.example app.yaml
