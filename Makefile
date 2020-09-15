@@ -5,8 +5,8 @@ ifndef PROJECT
 endif
 
 deploy: check
-	cp app.yaml app.yaml.example
+	cp app.yaml app.yaml.old
 	cp etc/app-$(PROJECT).yaml ./app.yaml
 	-gcloud app deploy \
 		--project=$(PROJECT)
-	cp app.yaml.example app.yaml
+	mv app.yaml.old app.yaml
