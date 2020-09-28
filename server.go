@@ -78,13 +78,13 @@ func main() {
 	ctx := context.Background()
 	proxy, err := createAuthProxy(ctx, t, audience, *creds)
 	if err != nil {
-		logjson.Critical(err)
+		logjson.Critical("could not create proxy: %s", err)
 	}
 
 	logjson.Info("Settings: TARGET: %s", target)
 	logjson.Info("Settings: AUDIENCE: %s", audience)
 	if *creds != "" {
-		logjson.Info("Settings: credentials file: %s", creds)
+		logjson.Info("Settings: credentials file: %s", *creds)
 	}
 	err = http.ListenAndServe(":"+port, proxy)
 	if err != nil {
