@@ -20,6 +20,7 @@ import (
 	"context"
 	"flag"
 	"github.com/HayoVanLoon/go-commons/logjson"
+	"github.com/google/martian/v3/cors"
 	"golang.org/x/oauth2"
 	"google.golang.org/api/idtoken"
 	"google.golang.org/api/option"
@@ -55,6 +56,13 @@ func createAuthProxy(ctx context.Context, t *url.URL, aud, creds string) (http.H
 	return proxy, nil
 }
 
+func wrapCors(h http.Handler, origin string, allow bool) http.Handler {
+	ch := cors.NewHandler(h)
+	ch.SetOrigin(origin)
+	ch.AllowCredentials(allow)
+	return ch
+}
+
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -72,6 +80,9 @@ func main() {
 		audience = target
 	}
 
+	origin := os.Getenv("CORS_ORIGIN")
+	allow := os.Getenv("CORS_ALLOW_CREDENTIALS") == "1"
+
 	creds := flag.String("creds", "", "")
 	flag.Parse()
 
@@ -81,12 +92,24 @@ func main() {
 		logjson.Critical("could not create proxy: %s", err)
 	}
 
+	var h http.Handler
+	if origin == "" {
+		h = proxy
+	} else {
+		h = wrapCors(proxy, origin, allow)
+	}
+
 	logjson.Info("Settings: TARGET: %s", target)
 	logjson.Info("Settings: AUDIENCE: %s", audience)
 	if *creds != "" {
 		logjson.Info("Settings: credentials file: %s", *creds)
 	}
-	err = http.ListenAndServe(":"+port, proxy)
+	if origin != "" {
+		logjson.Info("Settings: ORIGIN: %s", origin)
+		logjson.Info("Settings: ALLOW_CREDENTIALS: %v", allow)
+	}
+
+	err = http.ListenAndServe(":"+port, h)
 	if err != nil {
 		logjson.Critical(err)
 	}

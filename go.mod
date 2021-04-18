@@ -3,8 +3,8 @@ module github.com/HayoVanLoon/appengine-proxy
 go 1.15
 
 require (
-	github.com/HayoVanLoon/go-commons v0.0.0-20200912130810-21e45d8667aa
-	github.com/HayoVanLoon/metadataemu v0.0.0-20200826075710-440e944d76df
-	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43
+	github.com/HayoVanLoon/go-commons v0.1.0
+	github.com/google/martian/v3 v3.0.0
+	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	google.golang.org/api v0.30.0
 )

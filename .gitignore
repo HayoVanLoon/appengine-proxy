@@ -47,6 +47,7 @@
 **/bin
 **/dist
 **/build
+**/out
 
 **/tmp
 **/etc
